@@ -70,3 +70,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('.btn-start').addEventListener('click', startSlider);
 });
+
+
+
+
+function checkBrackets(str) {
+    const stack = [];
+    const brackets = {
+        "(": ")",
+        "{": "}",
+        "[": "]"
+    };
+
+    for (let char of str) {
+        if (char in brackets) {
+            // Если это открывающая скобка, добавляем её в стек
+            stack.push(char);
+        } else if (char === ")" || char === "}" || char === "]") {
+            // Если это закрывающая скобка, проверяем её парность
+            const lastBracket = stack.pop();
+            if (!lastBracket || brackets[lastBracket] !== char) {
+                // Если стек пуст или скобка не соответствует последней открытой
+                return false;
+            }
+        }
+    }
+
+    // Если стек не пустой после проверки всех символов, значит есть незакрытые скобки
+    return stack.length === 0;
+}
+
+// Пример использования
+const someFn = `function foo() {
+  const arr = [1, 2, 3];
+  console.log(arr);
+}`;
+
+console.log(checkBrackets(someFn)); // Вернет true, все скобки закрыты правильно
